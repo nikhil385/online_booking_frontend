@@ -11,12 +11,11 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import EventModal from './Event';
 import EventForm from './EventForm';
-import { formatDate } from '../utils/utility';
+import { formatDate, getLoggedInUser } from '../utils/utility';
 
 const Dashboard = () => {
   const navigate = useNavigate()
   const [events, setEvents] = useState([])
-  const [authenticated, setauthenticated] = useState(null);
   const [currentEvent, setCurrentEvent] = useState(null);
   const [newEvent, setNewEvent] = useState(null);
   const [openModal, setOpenModal] = useState(false)
@@ -41,16 +40,16 @@ const Dashboard = () => {
     navigate('/login')
   }
 
+  const authenticated = getLoggedInUser()
   useEffect(() => {
-    const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
-    if (loggedInUser) {
-      setauthenticated(loggedInUser);
+    if (authenticated) {
       refreshEvents()
     }
   }, []);
 
+
   if (!authenticated) {
-    navigate('/login')
+    window.location.href = '/login'
   } else {
     return (
       <div>

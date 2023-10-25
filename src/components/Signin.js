@@ -10,6 +10,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { login } from '../apis/users';
 import { useNavigate } from 'react-router-dom';
+import { getLoggedInUser } from '../utils/utility';
+import Dashboard from './Dashboard';
 
 const defaultTheme = createTheme();
 
@@ -21,13 +23,15 @@ export default function SignIn() {
   const handleSubmit = () => {
     login(username, password)
     const user = sessionStorage.getItem('user')
-    console.log('============', JSON.parse(user))
     if (user) {
       navigate('/')
     }
   };
 
+  const user = getLoggedInUser()
+
   return (
+    !user ?
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -82,6 +86,7 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </ThemeProvider> :
+    <Dashboard />
   );
 }

@@ -23,6 +23,7 @@ const SelectDatePicker = (props) => {
           <div style={{marginTop: 10}} key={index}>
             <DatePicker
               value={date}
+              minDate={new Date()}
               onChange={(date) => handleDateChange(date, index)}
               label={`Proposed Date ${index + 1}`}
               inputVariant="outlined"
